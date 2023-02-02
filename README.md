@@ -24,3 +24,4 @@ A Tank Trouble Multiplayer egy kis tankos játék, melyet játszhatsz barátaidd
 -Unity Game Engine-ben készül <br>
 -Kód nyelve: C# <br>
 -Várható befejezés: Április közepe <br>
+-A munkatér ahol az ötleteket illetve a fejlesztés menetét nyomon követheted: https://trello.com/w/tanktroublemultiplayer
