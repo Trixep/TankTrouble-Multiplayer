@@ -14,9 +14,9 @@ A Tank Trouble Multiplayer egy kis tankos játék, melyet játszhatsz barátaidd
 
 | Név | |
 | ------ | ------ |
-| Horváth Péter Ákos | Projektvezető, Back-end|
-| Molnár-Horgos Kristóf | Front-end|
-| Vígh Noel | - |
+| Horváth Péter Ákos | Projektvezető|
+| Molnár-Horgos Kristóf | |
+| Vígh Noel | |
 
 
 # A projekttel kapcsolatos
