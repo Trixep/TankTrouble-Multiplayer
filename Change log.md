@@ -1,4 +1,4 @@
-<h1>Update Week 1</h1> <br>
+<h1>Update Week 1</h1>
 -Első menü dizájn <br>
 -Saját kurzor prototípus <br>
 -Ingyenes tank skinek az asset store-ból <br>
@@ -7,13 +7,13 @@
 -Trello tábla frissítése és ide (githubhoz) linkelése <br>
 
 <br>
-Tagok munkája: <br>
+<strong>Tagok munkája: </strong><br>
 -Kristóf: kurzor elkészítése; gombokhoz lévő kód segítése és a kilépés megcsinálása <br>
 -Péter: menü elkészítése; gombokhoz lévő kód segítése <br>
 -Noel: tank asset keresése; menü dizájn segítése <br>
 
  <br>
-<h1>Update Week 2</h1> <br>
+<h1>Update Week 2</h1>
 -Beállítások menü készítése <br>
 -Movement options (még csak placeholder) <br>
 -Felbontás beállítása <br>
@@ -22,7 +22,7 @@ Tagok munkája: <br>
 -Beállítások mentése játékok között <br>
 
  <br>
-Tagok munkája: <br>
+<strong>Tagok munkája: </strong><br>
 -Kristóf: dizájn segítése; movement option és fullscreen rész <br>
 -Péter: dizájn segítése; resolution választó és hangerő szabályzó <br>
 -Noel: görgető menü; játékok közti mentés <br>
