@@ -1,4 +1,4 @@
-#Update Week 1 <br>
+<h1>Update Week 1</h1> <br>
 -Első menü dizájn <br>
 -Saját kurzor prototípus <br>
 -Ingyenes tank skinek az asset store-ból <br>
@@ -13,7 +13,7 @@ Tagok munkája: <br>
 -Noel: tank asset keresése; menü dizájn segítése <br>
 
  <br>
-#Update Week 2 <br>
+<h1>Update Week 2</h1> <br>
 -Beállítások menü készítése <br>
 -Movement options (még csak placeholder) <br>
 -Felbontás beállítása <br>
