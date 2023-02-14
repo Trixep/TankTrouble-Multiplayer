@@ -28,3 +28,20 @@
 -Noel: görgető menü; játékok közti mentés <br>
 
  <br>
+<h1>Update Week 3</h1>
+-Kezdő menü elkészítése <br>
+-Skin választó elkészítése <br>
+-Név megadása <br>
+-Egyedi skin kiválasztása, több mint 250 variációból <br>
+-Mutató kurzor elkészítése <br>
+-A név és skin mentése játékok között <br>
+-Az eddig elkészült projekt játszható verziójának feltöltése <br>
+
+ <br>
+<strong>Tagok munkája: </strong><br>
+-Kristóf: kurzor; skint választó kód segítése <br>
+-Péter: dizájn; skint választó kód; skinek kalibrálása <br>
+-Noel: dizájn segítése; játékok közti mentés <br>
+
+ <br>
+ 
