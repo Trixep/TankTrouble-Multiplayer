@@ -44,4 +44,18 @@
 -Noel: dizájn segítése; játékok közti mentés <br>
 
  <br>
+ <h1>Update Week 4</h1>
+-Játékmód választó <br>
+-Lobby készítés - host <br>
+-Elérhető lobbik mutatása <br>
+-Csatlakozás kóddal <br>
+-Néhány bug javítása <br>
+
+ <br>
+<strong>Tagok munkája: </strong><br>
+-Kristóf: host lobby elkészítés <br>
+-Péter: elérhető lobbik listázása, bugok javítása <br>
+-Noel: játékmód választó, csatlakozás kóddal <br>
+
+ <br>
  
