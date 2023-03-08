@@ -58,4 +58,17 @@
 -Noel: játékmód választó, csatlakozás kóddal <br>
 
  <br>
- 
+  <h1>Update Week 5</h1>
+-Lobby ablak <br>
+-Lobbyn belüli beállítások <br>
+-A hostnak külön beállítás a lobbyhoz <br>
+-Figyelmeztetés lobby elhagyásánál <br>
+-Figyelmeztetés, ha üres a név <br>
+
+ <br>
+<strong>Tagok munkája: </strong><br>
+-Kristóf: lobbyn belüli beállítások <br>
+-Péter: lobby ablak <br>
+-Noel: figyelmeztető ablakok <br>
+
+ <br>
