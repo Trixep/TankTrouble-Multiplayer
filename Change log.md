@@ -72,3 +72,20 @@
 -Noel: figyelmeztető ablakok <br>
 
  <br>
+  <h1>Update Week 6 & 7</h1>
+-Lobby networking elkészítése és a UI-hoz való kötése: <br>
+-Anonymus hitelesítés <br>
+-Lobby készítése <br>
+-Lobby-k keresése <br>
+-Privát kóddal való belépés <br>
+-Lobby-n belüli játékosok megjelenítése <br>
+-Responsive lobby készítés <br>
+
+ <br>
+<strong>Tagok munkája: </strong><br>
+-Kristóf: anonymus authentication, privát kóddal való belépés, lobby-k listázása <br>
+-Péter: lobby manager, lobby készítő <br>
+-Noel: játékosok listázása lobby-n belül, responsive lobby <br>
+
+ <br>
+ 
