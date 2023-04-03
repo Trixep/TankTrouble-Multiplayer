@@ -88,4 +88,15 @@
 -Noel: játékosok listázása lobby-n belül, responsive lobby <br>
 
  <br>
- 
+   <h1>Update Week 6 & 7</h1>
+-Relay teszt szerver elkészítése <br>
+-A lobbyból a játékosok csatlakoztatása <br>
+-A tankkal való írányítás és lövés megcsinálása (kezdeti) <br>
+
+ <br>
+<strong>Tagok munkája: </strong><br>
+-Kristóf: tankkal való mozgás és lövés <br>
+-Péter: relay szerver <br>
+-Noel: lobbyból való csatlakoztatás <br>
+
+ <br>
