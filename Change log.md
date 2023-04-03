@@ -88,7 +88,7 @@
 -Noel: játékosok listázása lobby-n belül, responsive lobby <br>
 
  <br>
-   <h1>Update Week 6 & 7</h1>
+   <h1>Update Week 8 </h1>
 -Relay teszt szerver elkészítése <br>
 -A lobbyból a játékosok csatlakoztatása <br>
 -A tankkal való írányítás és lövés megcsinálása (kezdeti) <br>
