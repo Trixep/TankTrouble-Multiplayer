@@ -100,3 +100,16 @@
 -Noel: lobbyból való csatlakoztatás <br>
 
  <br>
+    <h1>Update Week 9 </h1>
+-Beállítások menü újradizájnolása, hogy lobbyn belül is elérhető legyen <br>
+-Lobby-n belül lobby beállítások <br>
+-Skin választó a lobbyból is elérhető, és azonnal frissül az új skin <br>
+-Opciók limitálása, csak a hosztnak elérhető <br>
+
+ <br>
+<strong>Tagok munkája: </strong><br>
+-Kristóf: beállítások menü újradizájnolása <br>
+-Péter: lobby-n belül lobby beállítások <br>
+-Noel: új skin választó <br>
+
+ <br>
