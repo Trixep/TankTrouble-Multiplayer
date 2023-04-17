@@ -12,6 +12,7 @@ using TMPro;
 using System;
 using static LobbyOperator;
 using System.Security.Cryptography;
+using static LobbyManager;
 
 public class LobbyOperator : MonoBehaviour
 {
@@ -47,7 +48,7 @@ public class LobbyOperator : MonoBehaviour
     public event EventHandler<LobbyEventArgs> OnJoinedLobby;
     public event EventHandler<LobbyEventArgs> OnJoinedLobbyUpdate;
     public event EventHandler<LobbyEventArgs> OnKickedFromLobby;
-    public event EventHandler<LobbyEventArgs> OnLobbyGameModeChanged;
+    public event EventHandler<LobbyEventArgs> OnLobbyChanged;
 
     public class LobbyEventArgs : EventArgs
     {
@@ -171,6 +172,7 @@ public class LobbyOperator : MonoBehaviour
             {
                 IsPrivate = isPrivate,
                 Player = GetPlayer(),
+                
                 Data = new Dictionary<string, DataObject>
                 {
                     { "GameMode", new DataObject(DataObject.VisibilityOptions.Public, "FFA") },
@@ -309,10 +311,41 @@ public class LobbyOperator : MonoBehaviour
         }
     }
 
+    public async void UpdatePlayerCharacter(string skinIds)
+    {
+        if (joinedlobby != null)
+        {
+            try
+            {
+                UpdatePlayerOptions options = new UpdatePlayerOptions();
+
+                options.Data = new Dictionary<string, PlayerDataObject>() {
+                    {
+                        KEY_PLAYER_CHARACTER, new PlayerDataObject(
+                            visibility: PlayerDataObject.VisibilityOptions.Public,
+                            value: skinIds)
+                    }
+                };
+
+                string playerId = AuthenticationService.Instance.PlayerId;
+
+                Lobby lobby = await LobbyService.Instance.UpdatePlayerAsync(joinedlobby.Id, playerId, options);
+                joinedlobby = lobby;
+
+                OnJoinedLobbyUpdate?.Invoke(this, new LobbyEventArgs { lobby = joinedlobby });
+            }
+            catch (LobbyServiceException e)
+            {
+                Debug.Log(e);
+            }
+        }
+    }
+
     private Player GetPlayer()
     {
         return new Player(AuthenticationService.Instance.PlayerId, null, new Dictionary<string, PlayerDataObject> {
-            { KEY_PLAYER_NAME, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, playerName) }
+            { KEY_PLAYER_NAME, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, playerName) },
+            { KEY_PLAYER_CHARACTER, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, skinSelector.Instance.GetSkinId()) }
         });
     }
 
@@ -340,20 +373,26 @@ public class LobbyOperator : MonoBehaviour
         }
     }
 
-    private async void UpdateLobbyGameMode(string gameMode)
+    public async void UpdateLobby(string lobbyName, string finishScore, /*GameMode gameMode,*/ bool isPrivate)
     {
         try
         {
-            hostlobby = await Lobbies.Instance.UpdateLobbyAsync(hostlobby.Id, new UpdateLobbyOptions
+            UpdateLobbyOptions updateLobbyOptions = new UpdateLobbyOptions
             {
+                Name = lobbyName,
+                IsPrivate = isPrivate,
                 Data = new Dictionary<string, DataObject>
                 {
-                    { "GameMode", new DataObject(DataObject.VisibilityOptions.Public, gameMode) }
+                    { "GameMode", new DataObject(DataObject.VisibilityOptions.Public, "FFA") },
+                    { KEY_FINISH_SCORE, new DataObject(DataObject.VisibilityOptions.Public, finishScore) }
                 }
-            });
-            joinedlobby = hostlobby;
+            };
 
-            PrintPlayers(hostlobby);
+            Lobby lobby = await LobbyService.Instance.UpdateLobbyAsync(joinedlobby.Id, updateLobbyOptions);
+
+            joinedlobby = lobby;
+
+            OnLobbyChanged?.Invoke(this, new LobbyEventArgs { lobby = joinedlobby });
         }
         catch (LobbyServiceException e)
         {

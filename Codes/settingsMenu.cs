@@ -91,11 +91,13 @@ public class settingsMenu : MonoBehaviour
         {
             PlayerPrefs.SetInt("fullscreenState", 1);
             PlayerPrefs.Save();
+            toggleText.text = "On";
         }
         else
         {
             PlayerPrefs.SetInt("fullscreenState", 0);
             PlayerPrefs.Save();
+            toggleText.text = "Off";
         }
     }
 

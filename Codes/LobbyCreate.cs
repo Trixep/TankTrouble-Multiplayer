@@ -72,4 +72,19 @@ public class LobbyCreate : MonoBehaviour
             isPrivate = false;
         }
     }
+
+    public string GetLobbyName()
+    {
+        return lobbyName;
+    }
+
+    public string GetLobbyFinishScore()
+    {
+        return finishScore;
+    }
+
+    public bool GetLobbyVisibility()
+    {
+        return isPrivate;
+    }
 }

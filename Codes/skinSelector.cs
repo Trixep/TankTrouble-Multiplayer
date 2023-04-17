@@ -1,29 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Unity.Services.Lobbies.Models;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class skinSelector : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer towerRendererSelect;
-    [SerializeField] private SpriteRenderer connectorRendererSelect;
-    [SerializeField] private SpriteRenderer gunRendererSelect;
-    [SerializeField] private SpriteRenderer bodyRendererSelect;
-    [SerializeField] private SpriteRenderer trackRenderer1Select;
-    [SerializeField] private SpriteRenderer trackRenderer2Select;
-    [SerializeField] private SpriteRenderer colorRendererSelect;
-    [SerializeField] private SpriteRenderer towerRendererPrev;
-    [SerializeField] private SpriteRenderer connectorRendererPrev;
-    [SerializeField] private SpriteRenderer gunRendererPrev;
-    [SerializeField] private SpriteRenderer bodyRendererPrev;
-    [SerializeField] private SpriteRenderer trackRenderer1Prev;
-    [SerializeField] private SpriteRenderer trackRenderer2Prev;
-    [SerializeField] private SpriteRenderer colorRendererPrev;
+    public static skinSelector Instance { get; private set; }
+
+    [SerializeField] private Button skinPreviewButton;
+    [SerializeField] private Button skinChangerButton;
+    [SerializeField] private Button doneButton;
+    [SerializeField] private GameObject skinSelectorWindow;
+    [SerializeField] private GameObject startWindow;
+    [SerializeField] private GameObject lobbyWindow;
+
+    private bool inLobby;
+
+    [SerializeField] private Image[] towerRenderer;
+    [SerializeField] private Image[] gunRenderer;
+    [SerializeField] private Image[] gunConnectorRenderer;
+    [SerializeField] private Image[] bodyRenderer;
+    [SerializeField] private Image[] track1Renderer;
+    [SerializeField] private Image[] track2Renderer;
+    [SerializeField] private Image[] colorRenderer;
 
     private int towerId;
     private int bodyId;
     private int trackId;
     private int colorId;
+    private string skinIds;
 
     [SerializeField] private Sprite[] towers;
     [SerializeField] private Sprite[] connectors;
@@ -78,10 +87,37 @@ public class skinSelector : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
+
         towerId = PlayerPrefs.GetInt("tower", 4);
         bodyId = PlayerPrefs.GetInt("body", 4);
         trackId = PlayerPrefs.GetInt("track", 0);
-        colorId = PlayerPrefs.GetInt("color", 2);
+        colorId = PlayerPrefs.GetInt("color", 8);
+
+        skinPreviewButton.onClick.AddListener(() =>
+        {
+            inLobby = false;
+        });
+
+        skinChangerButton.onClick.AddListener(() =>
+        {
+            inLobby = true;
+        });
+
+        doneButton.onClick.AddListener(() =>
+        {
+            if (inLobby == false)
+            {
+                skinSelectorWindow.SetActive(false);
+                startWindow.SetActive(true);
+            }
+            else
+            {
+                skinSelectorWindow.SetActive(false);
+                lobbyWindow.SetActive(true);
+                LobbyOperator.Instance.UpdatePlayerCharacter(GetSkinId());
+            }
+        });
     }
 
     private void Start()
@@ -90,6 +126,7 @@ public class skinSelector : MonoBehaviour
         setItem("bodies");
         setItem("tracks");
         setItem("colors");
+
     }
 
     public void selectTowers(bool isFoward)
@@ -208,78 +245,156 @@ public class skinSelector : MonoBehaviour
         setItem("colors");
     }
 
-    private void setItem(string type)
+    public void setItem(string type)
     {
         switch (type)
         {
             case "towers":
-                towerRendererSelect.sprite = towers[towerId];
-                gunRendererSelect.sprite = guns[towerId];
-                towerRendererPrev.sprite = towers[towerId];
-                gunRendererPrev.sprite = guns[towerId];
-                if (towerId == 0)
+                for (int i = 0; i < towerRenderer.Length; i++)
                 {
-                    connectorRendererSelect.sprite = connectors[0];
-                    connectorRendererPrev.sprite = connectors[0];
-                }
-                if (towerId == 1)
-                {
-                    connectorRendererSelect.sprite = connectors[1];
-                    connectorRendererPrev.sprite = connectors[1];
-                }
-                if (towerId == 2)
-                {
-                    connectorRendererSelect.sprite = connectors[2];
-                    connectorRendererPrev.sprite = connectors[2];
-                }
-                if (towerId >= 3 && towerId <= 5)
-                {
-                    connectorRendererSelect.sprite = connectors[3];
-                    connectorRendererPrev.sprite = connectors[3];
-                }
-                if (towerId >= 6 && towerId <= 8)
-                {
-                    connectorRendererSelect.sprite = connectors[4];
-                    connectorRendererPrev.sprite = connectors[4];
-                }
+                    towerRenderer[i].sprite = towers[towerId];
+                    gunRenderer[i].sprite = guns[towerId];
+                    if (towerId == 0)
+                    {
+                        gunConnectorRenderer[i].sprite = connectors[0];
+                    }
+                    if (towerId == 1)
+                    {
+                        gunConnectorRenderer[i].sprite = connectors[1];
+                    }
+                    if (towerId == 2)
+                    {
+                        gunConnectorRenderer[i].sprite = connectors[2];
+                    }
+                    if (towerId >= 3 && towerId <= 5)
+                    {
+                        gunConnectorRenderer[i].sprite = connectors[3];
+                    }
+                    if (towerId >= 6 && towerId <= 8)
+                    {
+                        gunConnectorRenderer[i].sprite = connectors[4];
+                    }
 
-                towerRendererSelect.transform.localScale = new Vector2(towerSize[towerId], towerSize[towerId]);
-                towerRendererSelect.transform.localPosition = new Vector2(towerPozX[towerId], towerPozY[towerId]);
-                connectorRendererSelect.transform.localPosition = new Vector2(connectorPozX[towerId], connectorPozY[towerId]);
-                gunRendererSelect.transform.localPosition = new Vector2(gunPozX[towerId], gunpozY[towerId]);
-
-                towerRendererPrev.transform.localScale = new Vector2(towerSize[towerId], towerSize[towerId]);
-                towerRendererPrev.transform.localPosition = new Vector2(towerPozX[towerId], towerPozY[towerId]);
-                connectorRendererPrev.transform.localPosition = new Vector2(connectorPozX[towerId], connectorPozY[towerId]);
-                gunRendererPrev.transform.localPosition = new Vector2(gunPozX[towerId], gunpozY[towerId]);
+                    towerRenderer[i].transform.localScale = new Vector3(towerSize[towerId], towerSize[towerId], 1);
+                    towerRenderer[i].transform.localPosition = new Vector3(towerPozX[towerId], towerPozY[towerId], 1);
+                    gunConnectorRenderer[i].transform.localPosition = new Vector3(connectorPozX[towerId], connectorPozY[towerId], 1);
+                    gunRenderer[i].transform.localPosition = new Vector3(gunPozX[towerId], gunpozY[towerId], 1);
+                }
                 break;
+
             case "bodies":
-                bodyRendererSelect.sprite = bodies[bodyId];
-                bodyRendererPrev.sprite = bodies[bodyId];
-
-                bodyRendererSelect.transform.localScale = new Vector2(bodySize[bodyId], bodySize[bodyId]);
-
-                bodyRendererPrev.transform.localScale = new Vector2(bodySize[bodyId], bodySize[bodyId]);
+                for (int i = 0; i < bodyRenderer.Length; i++)
+                {
+                    bodyRenderer[i].sprite = bodies[bodyId];
+                    bodyRenderer[i].transform.localScale = new Vector3(bodySize[bodyId], bodySize[bodyId], 1);
+                }
                 break;
+
             case "tracks":
-                trackRenderer1Select.sprite = tracks[trackId];
-                trackRenderer2Select.sprite = tracks[trackId];
-                trackRenderer1Prev.sprite = tracks[trackId];
-                trackRenderer2Prev.sprite = tracks[trackId];
-
-                trackRenderer1Select.transform.localPosition = new Vector2(trackPozX1[trackId], trackPozY[trackId]);
-                trackRenderer2Select.transform.localPosition = new Vector2(trackPozX2[trackId], trackPozY[trackId]);
-
-                trackRenderer1Prev.transform.localPosition = new Vector2(trackPozX1[trackId], trackPozY[trackId]);
-                trackRenderer2Prev.transform.localPosition = new Vector2(trackPozX2[trackId], trackPozY[trackId]);
+                for (int i = 0; i < bodyRenderer.Length; i++)
+                {
+                    track1Renderer[i].sprite = tracks[trackId];
+                    track2Renderer[i].sprite = tracks[trackId];
+                    track1Renderer[i].transform.localPosition = new Vector3(trackPozX1[trackId], trackPozY[trackId], 1);
+                }
                 break;
+
             case "colors":
                 if(ColorUtility.TryParseHtmlString(colors.Values.ElementAt(colorId), out Color color))
                 {
-                    colorRendererSelect.color = color;
-                    colorRendererPrev.color = color;
+                    for (int i = 0; i < bodyRenderer.Length; i++)
+                    {
+                        colorRenderer[i].color = color;
+                    }
                 }
                 break;
         }
+    }
+
+    public string GetSkinId() 
+    {
+        skinIds = towerId.ToString() + ";" + bodyId.ToString() + ";" + trackId.ToString() + ";" + colorId.ToString();
+        return skinIds;
+    }
+
+    public Vector3 GetTransform(string type, int id)
+    {
+        switch (type)
+        {
+            case "towerScale":
+                return new Vector3(towerSize[id], towerSize[id], 1);
+
+            case "towerPos":
+                return new Vector3(towerPozX[id], towerPozY[id], 1);
+
+            case "gunPos":
+                return new Vector3(gunPozX[id], gunpozY[id], 1);
+
+            case "gunConnectorPos":
+                return new Vector3(connectorPozX[id], connectorPozY[id], 1);
+
+            case "bodyScale":
+                return new Vector3(bodySize[id], bodySize[id], 1);
+
+            case "track1Pos":
+                return new Vector3(trackPozX1[id], trackPozY[id], 1);
+        }
+
+        return new Vector3(1, 1, 1);
+    }
+
+    public Sprite GetSkin(string type, int id)
+    {
+        switch (type)
+        {
+            case "tower":
+                return towers[id];
+
+            case "gun":
+                return guns[id];
+
+            case "gunConnector":
+                if (id == 0)
+                {
+                    return connectors[0];
+                }
+                if (id == 1)
+                {
+                    return connectors[1];
+                }
+                if (id == 2)
+                {
+                    return connectors[2];
+                }
+                if (id >= 3 && towerId <= 5)
+                {
+                    return connectors[3];
+                }
+                else
+                {
+                    return connectors[4];
+                }
+
+            case "body":
+                return bodies[id];
+
+            case "track1":
+                return tracks[id];
+
+            case "track2":
+                return tracks[id];
+        }
+
+        return null;
+    }
+
+    public Color GetColor(int id)
+    {
+        if (ColorUtility.TryParseHtmlString(colors.Values.ElementAt(id), out Color color))
+        {
+            return color;
+        }
+
+        return Color.black;
     }
 }

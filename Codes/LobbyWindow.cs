@@ -19,6 +19,7 @@ public class LobbyWindow : MonoBehaviour
     [SerializeField] private TextMeshProUGUI isPrivateText;
     [SerializeField] private TextMeshProUGUI lobbyCodeText;
     [SerializeField] private Button leaveLobbyButton;
+    [SerializeField] private Button startButton;
 
     private void Awake()
     {
@@ -28,13 +29,18 @@ public class LobbyWindow : MonoBehaviour
         leaveLobbyButton.onClick.AddListener(() => {
             LobbyOperator.Instance.LeaveLobby();
         });
+
+        startButton.onClick.AddListener(() =>
+        {
+            LobbyOperator.Instance.StartGame();
+        });
     }
 
     private void Start()
     {
         LobbyOperator.Instance.OnJoinedLobby += UpdateLobby_Event;
         LobbyOperator.Instance.OnJoinedLobbyUpdate += UpdateLobby_Event;
-        LobbyOperator.Instance.OnLobbyGameModeChanged += UpdateLobby_Event;
+        LobbyOperator.Instance.OnLobbyChanged += UpdateLobby_Event;
         LobbyOperator.Instance.OnLeftLobby += LobbyManager_OnLeftLobby;
         LobbyOperator.Instance.OnKickedFromLobby += LobbyManager_OnLeftLobby;
     }
@@ -66,6 +72,10 @@ public class LobbyWindow : MonoBehaviour
             LobbyPlayerTemplate lobbyPlayerSingleUI = playerSingleTransform.GetComponent<LobbyPlayerTemplate>();
 
             lobbyPlayerSingleUI.SetKickPlayerButtonVisible(LobbyOperator.Instance.IsLobbyHost() && player.Id != AuthenticationService.Instance.PlayerId);
+            
+            lobbyPlayerSingleUI.SetGameSettingsInteractable(LobbyOperator.Instance.IsLobbyHost());
+
+            lobbyPlayerSingleUI.SetStartButtonVisible(LobbyOperator.Instance.IsLobbyHost());
 
             lobbyPlayerSingleUI.UpdatePlayer(player);
         }
