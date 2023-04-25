@@ -64,6 +64,7 @@ public class LobbyWindow : MonoBehaviour
     private void UpdateLobby(Lobby lobby)
     {
         ClearLobby();
+        bool ready = true;
 
         foreach (Player player in lobby.Players)
         {
@@ -77,8 +78,23 @@ public class LobbyWindow : MonoBehaviour
 
             lobbyPlayerSingleUI.SetStartButtonVisible(LobbyOperator.Instance.IsLobbyHost());
 
+            if (player.Id == AuthenticationService.Instance.PlayerId)
+            {
+                lobbyPlayerSingleUI.SetReadyButtonInteractable(true);
+            }
+            else
+            {
+                lobbyPlayerSingleUI.SetReadyButtonInteractable(false);
+            }
+
+            if (player.Data[LobbyOperator.KEY_READY].Value == "Unready")
+            {
+                ready = false;
+            }
+
             lobbyPlayerSingleUI.UpdatePlayer(player);
         }
+        LobbyPlayerTemplate.Instance.SetStartButtonInteractable(ready);
 
         lobbyNameText.text = lobby.Name;
         playerCountText.text = lobby.Players.Count + "/" + lobby.MaxPlayers;

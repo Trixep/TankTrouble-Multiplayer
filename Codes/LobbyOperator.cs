@@ -10,9 +10,6 @@ using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using TMPro;
 using System;
-using static LobbyOperator;
-using System.Security.Cryptography;
-using static LobbyManager;
 
 public class LobbyOperator : MonoBehaviour
 {
@@ -34,6 +31,7 @@ public class LobbyOperator : MonoBehaviour
 
     public const string KEY_PLAYER_NAME = "PlayerName";
     public const string KEY_PLAYER_CHARACTER = "Character";
+    public const string KEY_READY = "Unready";
     public const string KEY_GAME_MODE = "GameMode";
     public const string KEY_FINISH_SCORE = "FinishScore";
     public const string KEY_START_GAME = "StartGame";
@@ -340,12 +338,43 @@ public class LobbyOperator : MonoBehaviour
             }
         }
     }
+    
+    public async void UpdatePlayerReady(string ready)
+    {
+        if (joinedlobby != null)
+        {
+            try
+            {
+                UpdatePlayerOptions options = new UpdatePlayerOptions();
+
+                options.Data = new Dictionary<string, PlayerDataObject>() {
+                    {
+                        KEY_READY, new PlayerDataObject(
+                            visibility: PlayerDataObject.VisibilityOptions.Public,
+                            value: ready)
+                    }
+                };
+
+                string playerId = AuthenticationService.Instance.PlayerId;
+
+                Lobby lobby = await LobbyService.Instance.UpdatePlayerAsync(joinedlobby.Id, playerId, options);
+                joinedlobby = lobby;
+
+                OnJoinedLobbyUpdate?.Invoke(this, new LobbyEventArgs { lobby = joinedlobby });
+            }
+            catch (LobbyServiceException e)
+            {
+                Debug.Log(e);
+            }
+        }
+    }
 
     private Player GetPlayer()
     {
         return new Player(AuthenticationService.Instance.PlayerId, null, new Dictionary<string, PlayerDataObject> {
             { KEY_PLAYER_NAME, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, playerName) },
-            { KEY_PLAYER_CHARACTER, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, skinSelector.Instance.GetSkinId()) }
+            { KEY_PLAYER_CHARACTER, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, skinSelector.Instance.GetSkinId()) },
+            { KEY_READY, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, "Unready") }
         });
     }
 
