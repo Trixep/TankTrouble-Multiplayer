@@ -113,3 +113,15 @@
 -Noel: új skin választó <br>
 
  <br>
+     <h1>Update Week 10 </h1>
+-A tele lévő lobby-kat már nem lehet látni <br>
+-Ready gomb <br>
+-Csak akkor tudja a host a játékot elindítani, ha mindenki ready <br>
+
+ <br>
+<strong>Tagok munkája: </strong><br>
+-Kristóf: ready gombot csak a hozzá tartozó játékos nyomhatja le, gomb dizájn <br>
+-Péter: ready gomb szinkronizálása a lobby szerverén, vizsgálás hogy mindenki ready-e <br>
+-Noel: a teli lobby-k nem mutatása <br>
+
+ <br>
